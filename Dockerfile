@@ -9,6 +9,7 @@ RUN \
   apk add --no-cache curl jq python3 py3-six py3-chardet && \
   apk add --no-cache py3-pip python3-dev gcc musl-dev libffi-dev openssl-dev py3-wheel && \
   apk add --no-cache unrar unzip p7zip && \
+  apk add --no-cache clamav-clamdscan && \
   echo "------ !!! Installing par2cmdline from edge/testing !!! ------" && \
   apk add par2cmdline --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
   mkdir -p "$APP_ROOT" && \
@@ -22,7 +23,7 @@ RUN \
   python3 "${APP_ROOT}/tools/make_mo.py" && \
   cd - && \
   apk del --purge -r python3-dev gcc musl-dev libffi-dev openssl-dev py3-wheel py3-pip jq curl && \
-  rm -rf /root/.cache
+  rm -rf /root/.cache 
   
 COPY root/ /
 
