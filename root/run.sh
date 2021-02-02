@@ -17,6 +17,6 @@ fi
 chown -R ${user}:${group} /config
 
 # Run SABnzbd in foreground
-su - ${user} -c \
-	'/opt/sabnzbd/SABnzbd.py --config-file /config --server 0.0.0.0:8080'
+exec su - ${user} -c \
+	'exec /opt/sabnzbd/SABnzbd.py --config-file /config --server 0.0.0.0:8080'
 
