@@ -23,7 +23,8 @@ RUN \
   python3 "${APP_ROOT}/tools/make_mo.py" && \
   cd - && \
   apk del --purge -r python3-dev gcc musl-dev libffi-dev openssl-dev py3-wheel py3-pip jq curl rust cargo && \
-  rm -rf /root/.cache 
+  rm -rf /root/.cache \
+  rm -rf /root/.cargo
   
 COPY root/ /
 
