@@ -6,6 +6,7 @@ ARG GITHUB_PROJECT="sabnzbd/sabnzbd"
 ARG APP_ROOT="/opt/sabnzbd"
 
 RUN \
+  apk update ^^ \
   apk add --no-cache tzdata curl jq python3 py3-six py3-chardet && \
   apk add --no-cache py3-pip python3-dev gcc musl-dev libffi-dev openssl-dev py3-wheel rust cargo && \
   apk add --no-cache unrar unzip p7zip && \
@@ -23,8 +24,9 @@ RUN \
   python3 "${APP_ROOT}/tools/make_mo.py" && \
   cd - && \
   apk del --purge -r python3-dev gcc musl-dev libffi-dev openssl-dev py3-wheel py3-pip jq curl rust cargo && \
-  rm -rf /root/.cache \
-  rm -rf /root/.cargo
+  rm -rf /root/.cache && \
+  rm -rf /root/.cargo && \
+  rm -rf /var/cache/apk/*
   
 COPY root/ /
 
