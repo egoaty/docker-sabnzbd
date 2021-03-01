@@ -1,7 +1,6 @@
 ARG DISTRO=alpine:3
 FROM $DISTRO
 
-ARG RELEASE_VERSION=""
 ARG GITHUB_PROJECT="sabnzbd/sabnzbd"
 ARG APP_ROOT="/opt/sabnzbd"
 
@@ -14,10 +13,7 @@ RUN \
   echo "------ !!! Installing par2cmdline from edge/testing !!! ------" && \
   apk add par2cmdline --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
   mkdir -p "$APP_ROOT" && \
-  if [ -z "${RELEASE_VERSION}" ]; then \
-    RELEASE_VERSION=$( curl -s "https://api.github.com/repos/${GITHUB_PROJECT}/releases/latest" | jq -r ".tag_name" ) && \
-    RELEASE_TARBALL=$( curl -s "https://api.github.com/repos/${GITHUB_PROJECT}/releases/latest" | jq -r '.tarball_url' ); \
-  fi && \
+  RELEASE_TARBALL=$( curl -s "https://api.github.com/repos/${GITHUB_PROJECT}/releases/latest" | jq -r '.tarball_url' ); \
   curl -s -L -H "Accept: application/vnd.github.v3+json" "${RELEASE_TARBALL}" | tar -xz -C "${APP_ROOT}" --strip-components=1 && \
   pip install --no-cache-dir -r "${APP_ROOT}/requirements.txt" -U && \
   cd ${APP_ROOT} && \
