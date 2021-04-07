@@ -5,8 +5,7 @@ ARG GITHUB_PROJECT="sabnzbd/sabnzbd"
 ARG APP_ROOT="/opt/sabnzbd"
 
 RUN \
-  apk update && \
-  apk upgrade && \
+  apk -U upgrade && \
   apk add --no-cache tzdata curl jq python3 py3-six py3-chardet && \
   apk add --no-cache py3-pip python3-dev gcc musl-dev libffi-dev openssl-dev py3-wheel rust cargo && \
   apk add --no-cache unrar unzip p7zip && \
