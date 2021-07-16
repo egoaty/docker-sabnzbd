@@ -10,8 +10,8 @@ RUN \
   apk add --no-cache py3-pip python3-dev gcc musl-dev libffi-dev openssl-dev py3-wheel rust cargo && \
   apk add --no-cache unrar unzip p7zip && \
   apk add --no-cache clamav-clamdscan && \
-  echo "------ !!! Installing par2cmdline from edge/testing !!! ------" && \
-  apk add par2cmdline --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
+  echo "------ !!! Installing par2cmdline from edge/community !!! ------" && \
+  apk add par2cmdline --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community && \
   mkdir -p "$APP_ROOT" && \
   RELEASE_TARBALL=$( curl -s "https://api.github.com/repos/${GITHUB_PROJECT}/releases/latest" | jq -r '.tarball_url' ); \
   curl -s -L -H "Accept: application/vnd.github.v3+json" "${RELEASE_TARBALL}" | tar -xz -C "${APP_ROOT}" --strip-components=1 && \
