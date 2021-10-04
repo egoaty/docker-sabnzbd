@@ -6,7 +6,7 @@ ARG APP_ROOT="/opt/sabnzbd"
 
 RUN \
   apk -U upgrade && \
-  apk add --no-cache tzdata curl jq python3 py3-six py3-chardet && \
+  apk add --no-cache tzdata curl jq python3 py3-six py3-chardet py3-setuptools && \
   apk add --no-cache py3-pip python3-dev gcc musl-dev libffi-dev openssl-dev py3-wheel rust cargo && \
   apk add --no-cache unrar unzip p7zip && \
   apk add --no-cache clamav-clamdscan && \
