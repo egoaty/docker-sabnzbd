@@ -1,4 +1,3 @@
-#ARG DISTRO=alpine:3
 ARG DISTRO=ubuntu
 FROM $DISTRO
 
