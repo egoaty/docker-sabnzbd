@@ -1,28 +1,31 @@
-ARG DISTRO=alpine:3
+#ARG DISTRO=alpine:3
+ARG DISTRO=ubuntu
 FROM $DISTRO
 
 ARG GITHUB_PROJECT="sabnzbd/sabnzbd"
 ARG APP_ROOT="/opt/sabnzbd"
 
 RUN \
-  apk -U upgrade && \
-  apk add --no-cache tzdata curl jq python3 py3-six py3-chardet py3-setuptools && \
-  apk add --no-cache py3-pip python3-dev gcc musl-dev libffi-dev openssl-dev py3-wheel rust cargo && \
-  apk add --no-cache unrar unzip p7zip && \
-  apk add --no-cache clamav-clamdscan && \
-  echo "------ !!! Installing par2cmdline from edge/community !!! ------" && \
-  apk add par2cmdline --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community && \
-  mkdir -p "$APP_ROOT" && \
-  RELEASE_TARBALL=$( curl -s "https://api.github.com/repos/${GITHUB_PROJECT}/releases/latest" | jq -r '.tarball_url' ); \
-  curl -s -L -H "Accept: application/vnd.github.v3+json" "${RELEASE_TARBALL}" | tar -xz -C "${APP_ROOT}" --strip-components=1 && \
-  pip install --no-cache-dir -r "${APP_ROOT}/requirements.txt" -U && \
-  cd ${APP_ROOT} && \
-  python3 "${APP_ROOT}/tools/make_mo.py" && \
-  cd - && \
-  apk del --purge -r python3-dev gcc musl-dev libffi-dev openssl-dev py3-wheel py3-pip jq curl rust cargo && \
-  rm -rf /root/.cache && \
-  rm -rf /root/.cargo && \
-  rm -rf /var/cache/apk/*
+  apt-get update && \
+  apt-get dist-upgrade -q -y && \
+  \
+  export DEBIAN_FRONTEND=noninteractive && \
+  ln -fs /usr/share/zoneinfo/Europe/Vienna /etc/localtime && \
+  apt-get install -y tzdata && \
+  dpkg-reconfigure --frontend noninteractive tzdata && \
+  \
+  apt-get install -y software-properties-common curl jq && \
+  \
+  add-apt-repository ppa:jcfp/nobetas && \
+  apt-get update && \
+  apt-get dist-upgrade -q -y && \
+  apt-get install -y sabnzbdplus && \
+  \
+  apt-get install -y clamdscan && \
+  \
+  apt-get remove --purge -y software-properties-common && \
+  apt-get clean -q -y --force-yes && \
+  apt-get autoclean -q -y --force-yes
   
 COPY root/ /
 
