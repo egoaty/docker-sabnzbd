@@ -5,10 +5,10 @@ ARG GITHUB_PROJECT="sabnzbd/sabnzbd"
 ARG APP_ROOT="/opt/sabnzbd"
 
 RUN \
+  export DEBIAN_FRONTEND=noninteractive && \
   apt-get update && \
   apt-get dist-upgrade -q -y && \
   \
-  export DEBIAN_FRONTEND=noninteractive && \
   ln -fs /usr/share/zoneinfo/Europe/Vienna /etc/localtime && \
   apt-get install -y tzdata && \
   dpkg-reconfigure --frontend noninteractive tzdata && \
